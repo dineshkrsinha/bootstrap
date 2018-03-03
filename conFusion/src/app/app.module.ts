@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@angular/material'; 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { DishService } from './services/dish.service';
+
 import { NgModule } from '@angular/core';
 
 
@@ -25,7 +27,7 @@ import { DishdetailComponent } from './dishdetail/dishdetail.component';
     MaterialModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [DishService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

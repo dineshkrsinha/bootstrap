@@ -1,12 +1,7 @@
-<div class="container"
-     fxLayout="row"
-     fxLayout.sm="column"
-     fxLayout.xs="column"
-     fxLayoutAlign.gt-md="space-around center"
-     fxLayoutGap="10px"
-     fxLayoutGap.xs="0">
+<div class="container" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign.gt-md="space-around center"
+    fxLayoutGap="10px" fxLayoutGap.xs="0">
     <div fxFlex="40">
-       
+
         <div fxFlex *ngIf="dish">
             <md-card>
                 <md-card-header>
@@ -27,23 +22,34 @@
                 </md-card-actions>
             </md-card>
         </div>
+        <div [hidden]="dish">
+            <md-spinner></md-spinner>
+            <h4>Loading . . . Please Wait</h4>
+        </div>
 
     </div>
     <div fxFlex="40">
-     
-    <md-list fxFlex  *ngIf="dish">
-        <h2 md-line> Comments </h2>
-        <md-list-item *ngFor="let comment of dish.comments">
-            <p md-line>
-                <span> <br />{{comment.comment}} </span>
-            </p>
-            <p md-line>
-                <span> {{comment.rating}} stars</span>
-            </p>
-            <p md-line>
-                <span><i> .. {{comment.author}}, {{comment.date | date}}</i></span>
-            </p>
-        </md-list-item>
-    </md-list>
-</div>
+
+        <md-list fxFlex *ngIf="dish">
+            <h2 md-line> Comments </h2>
+            <md-list-item *ngFor="let comment of dish.comments">
+                <p md-line>
+                    <span>
+                        <br />{{comment.comment}} </span>
+                </p>
+                <p md-line>
+                    <span> {{comment.rating}} stars</span>
+                </p>
+                <p md-line>
+                    <span>
+                        <i> .. {{comment.author}}, {{comment.date | date}}</i>
+                    </span>
+                </p>
+            </md-list-item>
+        </md-list>
+        <div [hidden]="dish">
+            <md-spinner></md-spinner>
+            <h4>Loading . . . Please Wait</h4>
+        </div>
+    </div>
 </div>

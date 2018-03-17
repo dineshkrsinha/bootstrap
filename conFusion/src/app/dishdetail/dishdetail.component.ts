@@ -5,8 +5,10 @@ import { DishService } from '../services/dish.service';
 
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Comment } from '../shared/comment';
 
 import 'rxjs/add/operator/switchMap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -21,9 +23,31 @@ export class DishdetailComponent implements OnInit {
   prev: number;
   next: number;
 
+  commentForm: FormGroup;
+  comment: Comment;
+
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
-    private location: Location) { }
+    private location: Location,
+    private fb: FormBuilder) 
+    { 
+      this.createForm();
+    }
+
+    createForm() {
+      this.commentForm = this.fb.group({
+        rating: 5,
+        author: '',
+        date: '',
+        comment: ''
+      });
+    }
+
+    onSubmit() {
+      this.comment = this.commentForm.value;
+      console.log(this.comment);
+      this.commentForm.reset();
+    }
 
   ngOnInit() {
 

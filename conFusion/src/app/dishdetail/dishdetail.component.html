@@ -16,11 +16,15 @@
                     </p>
                 </md-card-content>
                 <md-card-actions>
-                    <button md-button [routerLink]="['/dishdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
+                    <button md-button [routerLink]="['/dishdetail', prev]">
+                        <span class="fa fa-chevron-left fa-lg"></span>
+                    </button>
                     <button md-button (click)="goBack()">BACK</button>
                     <button md-button>LIKE</button>
                     <button md-button>SHARE</button>
-                    <button md-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
+                    <button md-button [routerLink]="['/dishdetail', next]">
+                        <span class="fa fa-chevron-right fa-lg"></span>
+                    </button>
                 </md-card-actions>
             </md-card>
         </div>
@@ -30,28 +34,59 @@
         </div>
 
     </div>
-    <div fxFlex="40">
+    <div fxFlex="40" layout="column" layout-align="left">
+        <div>
+            <md-list fxFlex *ngIf="dish">
+                <h2 md-line> Comments </h2>
+                <md-list-item *ngFor="let comment of dish.comments">
+                    <p md-line>
+                        <span>
+                            <br />{{comment.comment}} </span>
+                    </p>
+                    <p md-line>
+                        <span> {{comment.rating}} stars</span>
+                    </p>
+                    <p md-line>
+                        <span>
+                            <i> .. {{comment.author}}, {{comment.date | date}}</i>
+                        </span>
+                    </p>
+                </md-list-item>
+            </md-list>
+            <div [hidden]="dish">
+                <md-spinner></md-spinner>
+                <h4>Loading . . . Please Wait</h4>
+            </div>
+        </div>
+        <div>
 
-        <md-list fxFlex *ngIf="dish">
-            <h2 md-line> Comments </h2>
-            <md-list-item *ngFor="let comment of dish.comments">
-                <p md-line>
-                    <span>
-                        <br />{{comment.comment}} </span>
-                </p>
-                <p md-line>
-                    <span> {{comment.rating}} stars</span>
-                </p>
-                <p md-line>
-                    <span>
-                        <i> .. {{comment.author}}, {{comment.date | date}}</i>
-                    </span>
-                </p>
-            </md-list-item>
-        </md-list>
-        <div [hidden]="dish">
-            <md-spinner></md-spinner>
-            <h4>Loading . . . Please Wait</h4>
+            <div fxFlex fxFlexOffset="20px" class="form-size">
+
+                <p>{{ commentForm.value | json }} {{ commentForm.status | json }}</p>
+
+                <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()" style="border:1px solid gray;">
+                    <p>
+                        <md-input-container class="full-width">
+                            <input mdInput formControlName="author" placeholder="Name" type="text" required>
+                        </md-input-container>
+
+                    </p>
+
+                    <div style="width:400px;padding:40px;">
+                        <span>Rating</span>
+                        <md-slider md-discrete flex thumbLabel tickInterval="4" min="0" max="5" aria-label="rating" formControlName="rating"></md-slider>
+                    </div>
+
+
+                    <p>
+                        <md-input-container class="full-width">
+                            <textarea mdInput formControlName="comment" placeholder="Your Comment" rows=12></textarea>
+                        </md-input-container>
+                    </p>
+                    <button type="submit" md-button class="background-primary text-floral-white">Submit</button>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>

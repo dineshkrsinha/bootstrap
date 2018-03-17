@@ -93,20 +93,66 @@ export class DishdetailComponent implements OnInit {
   }
 
 
+  addToList(newComment: Comment)
+  {
+
+    if(this.dish.comments.length > 4) {
+      this.dish.comments.splice(this.dish.comments.length-1,1); 
+   }
+   
+    this.dish.comments.push(newComment);
+  }
+
+
   onValueChanged(data?: any) {
+    var isFormValid = true;
+    var newComment;
+
     if (!this.commentForm) { return; }
     const form = this.commentForm;
     for (const field in this.formErrors) {
       // clear previous error message (if any)
       this.formErrors[field] = '';
       const control = form.get(field);
+      //if((control && !control.dirty) || (control && control.dirty && !control.valid))
+            // isFormValid = false;
+      if(!control)
+        continue;
+      if (!("valid" in control) )
+      {
+         continue;
+      }
+      if(!control.dirty){
+        console.log("dinesh: control nothing");
+        isFormValid = false;
+      }
+      else if(!control.valid)
+      {
+        isFormValid = false;
+
+      }
+       
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+          this.formErrors[field] += messages[key] + ' ';          
         }
       }
     }
+    if(isFormValid)
+    {
+      console.log("dinesh: form is valid");
+
+      newComment =  {
+        'rating': form.get("rating").value,
+        'author': form.get("author").value,
+        'date': "",
+        'comment': form.get("comment").value
+      };
+
+      this.addToList(newComment);
+    }
+
   }
 
 

@@ -66,7 +66,9 @@ export class DishdetailComponent implements OnInit {
 
     onSubmit() {
       this.comment = this.commentForm.value;
+      this.comment.date = "dsdsffdsfdsfdsfs";
       console.log(this.comment);
+      this.addToList(this.comment);
       this.commentForm.reset();
     }
 
@@ -97,7 +99,8 @@ export class DishdetailComponent implements OnInit {
   {
 
     if(this.dish.comments.length > 4) {
-      this.dish.comments.splice(this.dish.comments.length-1,1); 
+      //if(!this.dish.comments[length-1].date)
+        this.dish.comments.splice(this.dish.comments.length-1,1); 
    }
    
     this.dish.comments.push(newComment);

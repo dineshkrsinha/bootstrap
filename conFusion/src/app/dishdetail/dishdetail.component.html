@@ -47,10 +47,21 @@
                         <span> {{comment.rating}} stars</span>
                     </p>
                     <p md-line>
-                        <span>
-                            <i> .. {{comment.author}}, {{comment.date | date}}</i>
-                        </span>
-                    </p>
+                            <span>
+                                <i> .. {{comment.author}}, {{comment.date | date}}</i>
+                            </span>
+                        </p>
+                        <p md-line>
+                            <span>
+                                <div *ngIf="comment.date; else temporarycomment">
+                                    Permanent comment
+                                </div>
+    
+                                <ng-template #temporarycomment>
+                                    Temporary commen
+                                </ng-template>
+                            </span>
+                        </p>
                 </md-list-item>
             </md-list>
             <div [hidden]="dish">
@@ -70,7 +81,7 @@
                             <input mdInput formControlName="author" placeholder="Name" type="text" required>
                             <md-hint>
                                 <span [hidden]="!(formErrors.author)">
-                                        {{formErrors.author}}</span>
+                                    {{formErrors.author}}</span>
                             </md-hint>
                         </md-input-container>
 
@@ -91,7 +102,8 @@
                             </md-hint>
                         </md-input-container>
                     </p>
-                    <button type="submit" md-button class="background-primary text-floral-white"  [style.color]="'white'"  [style.background-color]="f.invalid ? 'gray' : 'green'" [disabled]="commentForm.invalid">Submit</button>
+                    <button type="submit" md-button class="background-primary text-floral-white" [style.color]="'white'" [style.background-color]="f.invalid ? 'gray' : 'green'"
+                        [disabled]="commentForm.invalid">Submit</button>
                 </form>
             </div>
 

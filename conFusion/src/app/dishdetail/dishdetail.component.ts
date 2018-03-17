@@ -26,20 +26,41 @@ export class DishdetailComponent implements OnInit {
   commentForm: FormGroup;
   comment: Comment;
 
+
+  formErrors = {
+    'author': '',
+    'comment': ''
+  };
+
+  validationMessages = {
+    'author': {
+      'required':      'Author is required.',
+      'minlength':     'Author must be at least 2 characters long.'
+    },
+    'comment': {
+      'required':      'Comment is required.'
+    }
+  };
+
+
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
     private location: Location,
     private fb: FormBuilder) 
     { 
       this.createForm();
+      this.commentForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged(); // (re)set validation messages now
     }
 
     createForm() {
       this.commentForm = this.fb.group({
         rating: 5,
-        author: '',
+        author: ['', [Validators.required, Validators.minLength(2)] ],
         date: '',
-        comment: ''
+        comment: ['', [Validators.required] ]
       });
     }
 
@@ -69,6 +90,23 @@ export class DishdetailComponent implements OnInit {
     let index = this.dishIds.indexOf(dishId);
     this.prev = this.dishIds[(this.dishIds.length + index - 1)%this.dishIds.length];
     this.next = this.dishIds[(this.dishIds.length + index + 1)%this.dishIds.length];
+  }
+
+
+  onValueChanged(data?: any) {
+    if (!this.commentForm) { return; }
+    const form = this.commentForm;
+    for (const field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
   }
 
 

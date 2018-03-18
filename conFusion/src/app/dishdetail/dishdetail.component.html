@@ -41,28 +41,29 @@
                 <md-list-item *ngFor="let comment of dish.comments">
                     <p md-line>
                         <span>
-                            <br />{{comment.comment}} </span>
+                            <br />
+                            <div *ngIf="comment.date; else temporarycomment">
+                                    {{comment.comment}} 
+                                </div>
+    
+                                <ng-template #temporarycomment>
+                                    <br/>-------------------------------<br/>
+                                    {{comment.comment}}
+                                </ng-template>
+                        </span>
                     </p>
                     <p md-line>
                         <span> {{comment.rating}} stars</span>
                     </p>
                     <p md-line>
-                            <span>
-                                <i> .. {{comment.author}}, {{comment.date | date}}</i>
-                            </span>
-                        </p>
-                        <p md-line>
-                            <span>
-                                <div *ngIf="comment.date; else temporarycomment">
-                                    Permanent comment
-                                </div>
-    
-                                <ng-template #temporarycomment>
-                                    Temporary commen
-                                </ng-template>
-                            </span>
-                        </p>
+                        <span>
+                            <i> .. {{comment.author}}, {{comment.date | date}}</i>
+                        </span>
+                    </p>
+                   
                 </md-list-item>
+                <br/>
+                <br/>
             </md-list>
             <div [hidden]="dish">
                 <md-spinner></md-spinner>
@@ -72,8 +73,6 @@
         <div>
 
             <div fxFlex fxFlexOffset="20px" class="form-size">
-
-                <p>{{ commentForm.value | json }} {{ commentForm.status | json }}</p>
 
                 <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()" style="border:1px solid gray;">
                     <p>
@@ -87,7 +86,7 @@
 
                     </p>
 
-                    <div style="width:400px;padding:40px;">
+                    <div style="width:100px;padding:10px;">
                         <span>Rating</span>
                         <md-slider md-discrete flex thumbLabel tickInterval="4" min="0" max="5" aria-label="rating" formControlName="rating"></md-slider>
                     </div>
@@ -95,7 +94,7 @@
 
                     <p>
                         <md-input-container class="full-width" dividerColor="{{(formErrors.comment) ? 'warn' : 'primary'}}">
-                            <textarea mdInput formControlName="comment" placeholder="Your Comment" rows=12 required></textarea>
+                            <textarea mdInput formControlName="comment" placeholder="Your Comment" rows=5 required></textarea>
                             <md-hint>
                                 <span [hidden]="!(formErrors.comment)">
                                     {{formErrors.comment}}</span>

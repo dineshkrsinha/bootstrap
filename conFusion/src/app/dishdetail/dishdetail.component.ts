@@ -69,7 +69,12 @@ export class DishdetailComponent implements OnInit {
       this.comment.date = Date().toString();
       console.log(this.comment);
       this.addToList(this.comment);
-      this.commentForm.reset();
+      this.commentForm.reset({
+        rating: 5,
+        author: '',
+        date: '',
+        comment: ''
+      });
     }
 
   ngOnInit() {
@@ -127,8 +132,7 @@ export class DishdetailComponent implements OnInit {
       // clear previous error message (if any)
       this.formErrors[field] = '';
       const control = form.get(field);
-      //if((control && !control.dirty) || (control && control.dirty && !control.valid))
-            // isFormValid = false;
+   
       if(!control)
         continue;
       if (!("valid" in control) )
@@ -161,6 +165,7 @@ export class DishdetailComponent implements OnInit {
         'date': "",
         'comment': form.get("comment").value
       };
+      
 
       this.addToList(newComment);
     }

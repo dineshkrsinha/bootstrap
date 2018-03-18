@@ -66,7 +66,7 @@ export class DishdetailComponent implements OnInit {
 
     onSubmit() {
       this.comment = this.commentForm.value;
-      this.comment.date = "dsdsffdsfdsfdsfs";
+      this.comment.date = Date().toString();
       console.log(this.comment);
       this.addToList(this.comment);
       this.commentForm.reset();
@@ -94,14 +94,24 @@ export class DishdetailComponent implements OnInit {
     this.next = this.dishIds[(this.dishIds.length + index + 1)%this.dishIds.length];
   }
 
+  removeLastFromList()
+  {
+    if(this.dish.comments.length <=  5)
+      return;
+
+    var lastObject = this.dish.comments[this.dish.comments.length-1];
+    if ('date' in lastObject)
+      if(lastObject.date)
+        return;     
+   
+        this.dish.comments.splice(this.dish.comments.length-1,1); 
+
+  }
+
 
   addToList(newComment: Comment)
   {
-
-    if(this.dish.comments.length > 4) {
-      //if(!this.dish.comments[length-1].date)
-        this.dish.comments.splice(this.dish.comments.length-1,1); 
-   }
+    this.removeLastFromList();
    
     this.dish.comments.push(newComment);
   }
@@ -144,7 +154,6 @@ export class DishdetailComponent implements OnInit {
     }
     if(isFormValid)
     {
-      console.log("dinesh: form is valid");
 
       newComment =  {
         'rating': form.get("rating").value,

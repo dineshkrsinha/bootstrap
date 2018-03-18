@@ -88,6 +88,8 @@
 
                     <div style="width:100px;padding:10px;">
                         <span>Rating</span>
+                        <!-- Because of conflicts in using mat and md controls in the same project, I had to use md-slider -->
+                        <!-- As per the documentation I read, this appeared to be an issue with newer vesion of Angular -->
                         <md-slider md-discrete flex thumbLabel tickInterval="4" min="0" max="5" aria-label="rating" formControlName="rating"></md-slider>
                     </div>
 

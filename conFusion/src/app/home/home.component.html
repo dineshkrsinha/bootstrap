@@ -51,9 +51,13 @@
       </p>
     </md-card-content>
   </md-card>
-  <div [hidden]="leader">
+  <div [hidden]="leader || dishErrMessage">
     <md-spinner></md-spinner>
     <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div *ngIf="dishErrMessage">
+    <h2>Error</h2>
+    <h4>{{dishErrMessage}}</h4>
   </div>
 
 </div>
